@@ -16,6 +16,7 @@ import org.word.dto.Response;
 import org.word.dto.Table;
 import org.word.service.WordService;
 import org.word.utils.JsonUtils;
+import org.word.utils.MenuUtils;
 
 import java.util.*;
 
@@ -29,11 +30,8 @@ public class WordServiceImpl implements WordService {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Value("${swagger.url}")
-    private String swaggerUrl;
-
     @Override
-    public List<Table> tableList() {
+    public List<Table> tableList(String swaggerUrl) {
         List<Table> result = new ArrayList<>();
         try {
             String jsonStr = restTemplate.getForObject(swaggerUrl, String.class);
@@ -124,7 +122,10 @@ public class WordServiceImpl implements WordService {
 
                     //封装Table
                     Table table = new Table();
-                    table.setTitle(title);
+                    //是否添加为菜单
+                    if(MenuUtils.isMenu(title)){
+                        table.setTitle(title);
+                    }
                     table.setUrl(url);
                     table.setTag(tag);
                     table.setDescription(description);

@@ -31,6 +31,27 @@
 
 <body>
 <div style="width:800px; margin: 0 auto">
+    <!-- 这是系统信息说明-->
+    <h3 th:text="${root.info.title}"></h3>
+    <table border="1" cellspacing="0" cellpadding="0" width="100%">
+        <tr class="bg">
+            <td colspan="5" th:text="${root.info.description}"></td>
+        </tr>
+        <tr>
+            <td>系统版本</td>
+            <td colspan="4" th:text="${root.info.version}"></td>
+        </tr>
+        <tr>
+            <td>host</td>
+            <td colspan="4" th:text="${root.host}"></td>
+        </tr>
+        <tr>
+            <td>basePath</td>
+            <td colspan="4" th:text="${root.basePath}"></td>
+        </tr>
+
+    </table>
+
     <div th:each="table:${tables}">
         <!--这个是类的说明-->
         <h4 th:text="${table.title}"></h4>

@@ -20,7 +20,8 @@ spring:
 
 # Swagger json url address
 # etc. https://petstore.swagger.io/
-swagger.url: https://petstore.swagger.io/v2/swagger.json
+#swagger.url: http://localhost:8081/v2/api-docs
+swagger.url: http://192.168.3.237:8886/v2/api-docs
 
 
 

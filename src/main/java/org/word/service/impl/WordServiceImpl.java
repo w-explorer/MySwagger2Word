@@ -31,9 +31,9 @@ public class WordServiceImpl implements WordService {
     private RestTemplate restTemplate;
 
     @Override
-    public List<Table> tableList(String swaggerUrl) {
+    public List<Table> tableList(String swaggerUrl) throws Exception{
         List<Table> result = new ArrayList<>();
-        try {
+
             String jsonStr = restTemplate.getForObject(swaggerUrl, String.class);
             // convert JSON string to Map
             Map<String, Object> map = JsonUtils.readValue(jsonStr, HashMap.class);
@@ -165,9 +165,7 @@ public class WordServiceImpl implements WordService {
                     }
                 }
             }
-        } catch (Exception e) {
-            log.error("parse error", e);
-        }
+
         return result;
     }
 

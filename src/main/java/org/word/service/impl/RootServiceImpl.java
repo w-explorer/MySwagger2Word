@@ -23,9 +23,8 @@ public class RootServiceImpl implements RootService {
     @Autowired
     private RestTemplate restTemplate;
     @Override
-    public Root getRoot(String swaggerUrl) {
+    public Root getRoot(String swaggerUrl) throws Exception{
         Root root = new Root();
-        try{
             String jsonStr = restTemplate.getForObject(swaggerUrl, String.class);
             // convert JSON string to Map
             Map<String, Object> map = JsonUtils.readValue(jsonStr, HashMap.class);
@@ -39,10 +38,6 @@ public class RootServiceImpl implements RootService {
             info.setVersion(infoMap.get("version"));
             info.setTitle(infoMap.get("title"));
             root.setInfo(info);
-        }
-        catch (Exception e) {
-            log.error("parse error", e);
-        }
 
         return root;
     }

@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface WordService {
 
-    List<Table> tableList(String swaggerUrl);
+    List<Table> tableList(String swaggerUrl) throws Exception;
 }

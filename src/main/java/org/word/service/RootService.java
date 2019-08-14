@@ -8,5 +8,5 @@ import org.word.dto.Root;
  */
 public interface RootService {
 
-    Root getRoot(String swaggerUrl);
+    Root getRoot(String swaggerUrl) throws Exception;
 }

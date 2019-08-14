@@ -4,14 +4,18 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author wenc
- * @description 对系统基本信息的封装
- * @create 2019-08-02 18:14
+ * @description
+ * @create 2019-08-12 9:55
  */
 @Data
-@ApiModel("Root")
-public class Root {
+@ApiModel("MiscroServiceSwaggerMessage")
+public class MiscroServiceSwaggerMessage {
+    @ApiModelProperty(notes = "方法体list")
+    private List<Table> tables;
     /**
      *版本
      */
@@ -33,5 +37,4 @@ public class Root {
      */
     @ApiModelProperty(notes = "")
     private String basePath;
-
 }

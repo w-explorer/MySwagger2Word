@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="application/msword"/>
+    <meta http-equiv="Content-Type" content="application/msword ; charset=UTF-8"/>
+
     <title>toWord</title>
     <style type="text/css">
         .bg {
@@ -27,10 +28,169 @@
             height: 40px;
         }
     </style>
+    <style>
+        /* 方法1：设置textarea合适的宽高 */
+        #jsonTextarea {
+            float: left;
+            margin-right: 20px;
+            width: 40%;
+            height: 70vh;
+            outline: none;
+            padding: 5px;
+        }
+
+        /* 方法2：自定义高亮样式 */
+        #jsonPre {
+            float: left;
+            width: 40%;
+            height: 70vh;
+            outline: 1px solid #ccc;
+            padding: 5px;
+            overflow: scroll;
+        }
+
+        .string {
+            color: green;
+        }
+
+        .number {
+            color: darkorange;
+        }
+
+        .boolean {
+            color: blue;
+        }
+
+        .null {
+            color: magenta;
+        }
+
+        .key {
+            color: red;
+        }
+    </style>
+
+
+    <style>
+        pre {
+            outline: 1px solid #ccc;
+            padding: 5px;
+            margin: 5px;
+        }
+
+        .string {
+            color: green;
+        }
+
+        .number {
+            color: darkorange;
+        }
+
+        .boolean {
+            color: blue;
+        }
+
+        .null {
+            color: magenta;
+        }
+
+        .key {
+            color: red;
+        }
+
+        .showinfo {
+            position: absolute;
+            background-color: #eef1f8;
+            width: 200px;
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            display: none;
+        }
+
+        .showinfo pre {
+            padding: 5px;
+            border: 1px solid #ccc;
+            margin: 0;
+        }
+
+        table, th, td {
+            border: 1px solid blue;
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<!--    <script type="text/javascript">-->
+
+<!--        $(document).ready(function () {-->
+<!--            $(".show-rough")(function () {-->
+<!--                // var left = $(this).offset().left + $(this).width() + 20;//计算div显示位置-->
+<!--                // var top = $(this).offset().top + 20;-->
+<!--                var _jsonDate = $.parseJSON($(this).text());-->
+<!--                var showJson = syntaxHighlight(_jsonDate);-->
+<!--                // $("#show-info").css({"left": left, "top": top}).show();-->
+<!--                //填充内容-->
+<!--                document.getElementById('show-pre').innerHTML = showJson;-->
+<!--                // $("#show-pre").html(showJson);-->
+<!--            });-->
+<!--            // $(".show-rough").mouseout(function () {-->
+<!--            //     $("#show-info").hide().html();-->
+<!--            //     $("#show-pre").html();-->
+<!--            // })-->
+<!--        });-->
+
+<!--        //处理json数据，采用正则过滤出不同类型参数-->
+<!--        function syntaxHighlight(json) {-->
+<!--            if (typeof json != 'string') {-->
+<!--                json = JSON.stringify(json, undefined, 2);-->
+<!--            }-->
+<!--            json = json.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');-->
+<!--            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {-->
+<!--                var cls = 'number';-->
+<!--                if (/^"/.test(match)) {-->
+<!--                    if (/:$/.test(match)) {-->
+<!--                        cls = 'key';-->
+<!--                    } else {-->
+<!--                        cls = 'string';-->
+<!--                    }-->
+<!--                } else if (/true|false/.test(match)) {-->
+<!--                    cls = 'boolean';-->
+<!--                } else if (/null/.test(match)) {-->
+<!--                    cls = 'null';-->
+<!--                }-->
+<!--                return '<span class="' + cls + '">' + match + '</span>';-->
+<!--            });-->
+<!--        };-->
+<!--    </script>-->
+
+
+<!--    <script type="text/javascript" src="./js/html2canvas.js"></script>-->
+<!--    <script type="text/javascript" src="./js/jsPdf.debug.js"></script>-->
+
+
+<!-- 采用vue 尝试   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>-->
+<!--    <script>-->
+<!--        new Vue({-->
+<!--            el:	'#demo01',-->
+<!--            data : {-->
+<!--                message1:null,-->
+<!--                message2:null-->
+<!--            },-->
+<!--            watch :{-->
+<!--                message1 : function(val){-->
+<!--                    this.message1 = val;-->
+<!--                    this.message2 = val;-->
+<!--                }-->
+<!--            }-->
+<!--        })-->
+<!--    </script>-->
 </head>
 
 <body>
 <div style="width:800px; margin: 0 auto">
+    <a href="#" download="toWord.doc">点击下载为word</a>
+    <a href="/" >回到首页</a>
+<!--    <button id="renderPdf">点击下载为pdf</button>-->
+
     <!-- 这是系统信息说明-->
     <h3 th:text="${root.info.title}"></h3>
     <table border="1" cellspacing="0" cellpadding="0" width="100%">
@@ -120,10 +280,62 @@
             </tr>
             <tr class="specialHeight">
                 <td class="bg">返回值</td>
-                <td colspan="4" th:text="${table.responseParam}"></td>
+                <td class="show-rough" colspan="4" th:text="${table.responseParam}"></td>
             </tr>
+<!--                <pre id="show-pre" value="dfdddddd" xml:Object>-->
+<!--                    ${table.responseParam}-->
+<!--                </pre>-->
         </table>
     </div>
 </div>
+
+<!--生成pdf但是仅仅只是是图片-->
+<!--<script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/jspdf/1.3.4/jspdf.debug.js"></script>-->
+<!--<script type="text/javascript">-->
+<!--    var downPdf = document.getElementById("renderPdf");-->
+
+<!--    downPdf.onclick = function() {-->
+<!--        html2canvas(document.body, {-->
+<!--            onrendered:function(canvas) {-->
+
+<!--                var contentWidth = canvas.width;-->
+<!--                var contentHeight = canvas.height;-->
+
+<!--                //一页pdf显示html页面生成的canvas高度;-->
+<!--                var pageHeight = contentWidth / 592.28 * 841.89;-->
+<!--                //未生成pdf的html页面高度-->
+<!--                var leftHeight = contentHeight;-->
+<!--                //pdf页面偏移-->
+<!--                var position = 0;-->
+<!--                //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高-->
+<!--                var imgWidth = 595.28;-->
+<!--                var imgHeight = 592.28/contentWidth * contentHeight;-->
+
+<!--                var pageData = canvas.toDataURL('image/jpeg', 1.0);-->
+
+<!--                var pdf = new jsPDF('', 'pt', 'a4');-->
+
+<!--                //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)-->
+<!--                //当内容未超过pdf一页显示的范围，无需分页-->
+<!--                if (leftHeight < pageHeight) {-->
+<!--                    pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );-->
+<!--                } else {-->
+<!--                    while(leftHeight > 0) {-->
+<!--                        pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)-->
+<!--                        leftHeight -= pageHeight;-->
+<!--                        position -= 841.89;-->
+<!--                        //避免添加空白页-->
+<!--                        if(leftHeight > 0) {-->
+<!--                            pdf.addPage();-->
+<!--                        }-->
+<!--                    }-->
+<!--                }-->
+
+<!--                pdf.save('content.pdf');-->
+<!--            }-->
+<!--        })-->
+<!--    }-->
+<!--</script>-->
 </body>
 </html>

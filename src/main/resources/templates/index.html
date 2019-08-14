@@ -1,6 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="application/msword"/>
+    <title>Swagger2Word 全面解析swagger.json</title>
+    <style type="text/css">
+        .bg {
+            background-color: rgb(84, 127, 177);
+        }
+
+        table {
+            table-layout: fixed;
+        }
+
+        tr {
+            height: 20px;
+            font-size: 12px;
+        }
+
+        td {
+            overflow: hidden;
+            word-break: break-all;
+            word-wrap: break-word;
+        }
+
+        .specialHeight {
+            height: 40px;
+        }
+    </style>
+</head>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        var title = $("#msg").val();
+        if (title == "swagger-url不可用" ) {
+            alert(title);
+        }
+    });
+
+    function check() {
+        var title = $("#swaggerurl").val();
+        if (title == null || title == "") {
+            alert("地址栏不能为空");
+            return false;
+        }
+        return true;
+    }
+</script>
 <body>
-<h2>Hello Swagger2word !</h2>
+<div style="width:800px; margin: 0 auto">
+    <!-- 这是系统信息说明-->
+    <h3 th:text="使用说明"></h3>
+    <table border="1" cellspacing="0" cellpadding="0" width="100%">
+        <tr class="specialHeight">
+<!--            <td colspan="5" th:text="'看到网页上生成的类似 word 文档的页面,右键另存为 xxx.doc 文件即可'"></td>-->
+            <td colspan="5" th:text="'输入Swagger Json地址 点击预览后 可下载为word'"></td>
+            <td colspan="5" th:text="'查看word 视图调为 “页面”；如需pdf版本  请自行转word为pdf'"></td>
+        </tr>
+    </table>
+
+    <form action="/toWord" method="get" onsubmit="return check()">
+        <table border="1" cellspacing="0" cellpadding="0" width="100%">
+            <tr class="specialHeight">
+                <td class="bg">Swagger Json资源的url地址</td>
+                <td colspan="4" ><input type="text" style="width: 100%;height: 100%" id="swaggerurl" name="swaggerUrl" value="http://192.168.3.237:8487/v2/api-docs"/> </td>
+            </tr>
+            <tr class="specialHeight">
+                <td class="bg">点击右侧预览按钮完成预览</td>
+                <td colspan="4" >  <input type="submit" class="btn btn-primary" value="预览"></td>
+            </tr>
+
+        </table>
+    </form>
+
+    <input type="hidden" id="msg" th:value="${msg}">
+</div>
 </body>
 </html>

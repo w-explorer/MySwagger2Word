@@ -118,6 +118,7 @@
             border: 1px solid blue;
         }
     </style>
+
     <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 <!--    <script type="text/javascript">-->
 
@@ -184,15 +185,16 @@
 <!--        })-->
 <!--    </script>-->
 </head>
-
 <body>
 <div style="width:800px; margin: 0 auto">
-    <a href="#" download="toWord.doc">点击下载为word</a>
+    <a href="#" id="a1" download="toWord.doc" onclick="changedownload()">点击下载为word</a>
     <a href="/" >回到首页</a>
 <!--    <button id="renderPdf">点击下载为pdf</button>-->
 
     <!-- 这是系统信息说明-->
     <h3 th:text="${root.info.title}"></h3>
+    <input  id="title" type="hidden" th:value="${root.info.title}">
+    <input  id="nowDate" type="hidden" th:value="${nowDate}">
     <table border="1" cellspacing="0" cellpadding="0" width="100%">
         <tr class="bg">
             <td colspan="5" th:text="${root.info.description}"></td>
@@ -212,7 +214,7 @@
 
     </table>
 
-    <div th:each="table:${tables}">
+    <div th:each="table:${tables}" style="width:800px; margin: 0 auto">
         <!--这个是类的说明-->
         <h4 th:text="${table.title}"></h4>
         <!--这个是每个请求的说明，方便生成文档后进行整理-->
@@ -275,67 +277,33 @@
                 <td colspan="5">示例</td>
             </tr>
             <tr class="specialHeight">
-                <td class="bg">请求参数</td>
+                <td class="bg" style="width: 80px">请求参数</td>
                 <td colspan="4" th:text="${table.requestParam}"></td>
             </tr>
+<!--            <tr class="specialHeight">-->
+<!--                <td class="bg">返回值</td>-->
+<!--                <td class="show-rough" colspan="4" th:text="${table.responseParam}"></td>-->
+<!--            </tr>-->
             <tr class="specialHeight">
                 <td class="bg">返回值</td>
-                <td class="show-rough" colspan="4" th:text="${table.responseParam}"></td>
+                <td class="show-rough" colspan="4"><pre><code style="font-family: 宋体;font-size: 12px" id="json2" th:text="${table.responseParam}"></code></pre></td>
             </tr>
-<!--                <pre id="show-pre" value="dfdddddd" xml:Object>-->
-<!--                    ${table.responseParam}-->
-<!--                </pre>-->
+
         </table>
+
+
+
     </div>
 </div>
-
-<!--生成pdf但是仅仅只是是图片-->
-<!--<script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.js"></script>-->
-<!--<script src="https://cdn.bootcss.com/jspdf/1.3.4/jspdf.debug.js"></script>-->
-<!--<script type="text/javascript">-->
-<!--    var downPdf = document.getElementById("renderPdf");-->
-
-<!--    downPdf.onclick = function() {-->
-<!--        html2canvas(document.body, {-->
-<!--            onrendered:function(canvas) {-->
-
-<!--                var contentWidth = canvas.width;-->
-<!--                var contentHeight = canvas.height;-->
-
-<!--                //一页pdf显示html页面生成的canvas高度;-->
-<!--                var pageHeight = contentWidth / 592.28 * 841.89;-->
-<!--                //未生成pdf的html页面高度-->
-<!--                var leftHeight = contentHeight;-->
-<!--                //pdf页面偏移-->
-<!--                var position = 0;-->
-<!--                //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高-->
-<!--                var imgWidth = 595.28;-->
-<!--                var imgHeight = 592.28/contentWidth * contentHeight;-->
-
-<!--                var pageData = canvas.toDataURL('image/jpeg', 1.0);-->
-
-<!--                var pdf = new jsPDF('', 'pt', 'a4');-->
-
-<!--                //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)-->
-<!--                //当内容未超过pdf一页显示的范围，无需分页-->
-<!--                if (leftHeight < pageHeight) {-->
-<!--                    pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );-->
-<!--                } else {-->
-<!--                    while(leftHeight > 0) {-->
-<!--                        pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)-->
-<!--                        leftHeight -= pageHeight;-->
-<!--                        position -= 841.89;-->
-<!--                        //避免添加空白页-->
-<!--                        if(leftHeight > 0) {-->
-<!--                            pdf.addPage();-->
-<!--                        }-->
-<!--                    }-->
-<!--                }-->
-
-<!--                pdf.save('content.pdf');-->
-<!--            }-->
-<!--        })-->
-<!--    }-->
-<!--</script>-->
+<script type="text/javascript">
+    function changedownload()
+    {
+        var a1 = document.getElementById("a1");
+        var title = $("#title").val();
+        var nowDate = $("#nowDate").val();
+        title+=" "+nowDate+" .doc";
+        a1.setAttribute("download",title);
+    }
+</script>
 </body>
 </html>

@@ -15,6 +15,7 @@ import org.word.dto.Root;
 import org.word.dto.Table;
 import org.word.service.RootService;
 import org.word.service.WordService;
+import org.word.utils.DateUtil;
 import org.word.utils.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
@@ -73,6 +74,7 @@ public class WordController {
         }
         model.addAttribute("tables", tables);
         model.addAttribute("root", root);
+        model.addAttribute("nowDate", DateUtil.getFormatCurrentDate());
         return "word";
     }
     @ApiOperation(value = "拿到目标swagger.json解析后的封装数据" )
@@ -85,18 +87,21 @@ public class WordController {
         }
         List<Table> tables = null;
         Root root = null;
+        MiscroServiceSwaggerMessage miscroServiceSwaggerMessage = new MiscroServiceSwaggerMessage();
         try {
             tables = tableService.tableList(this.swaggerUrl);
             root = rootService.getRoot(this.swaggerUrl);
+
+            miscroServiceSwaggerMessage.setBasePath(root.getBasePath());
+            miscroServiceSwaggerMessage.setHost(root.getHost());
+            miscroServiceSwaggerMessage.setSwagger(root.getSwagger());
+            miscroServiceSwaggerMessage.setInfo(root.getInfo());
+            miscroServiceSwaggerMessage.setTables(tables);
+            return ResponseEntity.SUCCESS.buildSuccess("seccess",miscroServiceSwaggerMessage);
         } catch (Exception e) {
             e.printStackTrace();
+            return ResponseEntity.ERROR;
         }
-        MiscroServiceSwaggerMessage miscroServiceSwaggerMessage = new MiscroServiceSwaggerMessage();
-        miscroServiceSwaggerMessage.setBasePath(root.getBasePath());
-        miscroServiceSwaggerMessage.setHost(root.getHost());
-        miscroServiceSwaggerMessage.setSwagger(root.getSwagger());
-        miscroServiceSwaggerMessage.setInfo(root.getInfo());
-        miscroServiceSwaggerMessage.setTables(tables);
-        return ResponseEntity.SUCCESS.buildSuccess("seccess",miscroServiceSwaggerMessage);
+
     }
 }

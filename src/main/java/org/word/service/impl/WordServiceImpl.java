@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cglib.beans.BeanMap;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -134,7 +133,7 @@ public class WordServiceImpl implements WordService {
                     table.setRequestType(StringUtils.removeEnd(requestType, ","));
                     table.setRequestList(requestList);
                     table.setResponseList(responseList);
-                    table.setRequestParam(JsonUtils.writeJsonStr(buildParamMap(requestList, map)));
+                    table.setRequestParam(JsonUtils.responseFormatToJson(JsonUtils.writeJsonStr(buildParamMap(requestList, map))));
                     // 取出来状态是200时的返回值
                     Object obj = responses.get("200");
                     if (obj == null) {
@@ -148,7 +147,7 @@ public class WordServiceImpl implements WordService {
                         String ref = (String) ((Map) schema).get("$ref");
                         //解析swagger2 ref链接
                         ObjectNode objectNode = parseRef(ref, map);
-                        table.setResponseParam(objectNode.toString());
+                        table.setResponseParam(JsonUtils.responseFormatToJson(objectNode.toString()));
                         result.add(table);
                         continue;
                     }
@@ -160,7 +159,7 @@ public class WordServiceImpl implements WordService {
                         ObjectNode objectNode = parseRef(ref, map);
                         ArrayNode arrayNode = JsonUtils.createArrayNode();
                         arrayNode.add(objectNode);
-                        table.setResponseParam(arrayNode.toString());
+                        table.setResponseParam(JsonUtils.responseFormatToJson(arrayNode.toString()));
                         result.add(table);
                     }
                 }

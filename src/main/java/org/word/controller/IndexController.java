@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author xiuyin.cui
- * @description
- * @date 2019/3/22 10:52
+ * @author wenc
+ * @create 2019-08-02 18:14
  */
 @Controller
 public class IndexController {

@@ -22,7 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Created by XiuYin.Cui on 2018/1/11.
+ * @author wenc
+ * @create 2019-08-02 18:14
  */
 @Controller
 public class WordController {

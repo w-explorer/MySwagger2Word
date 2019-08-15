@@ -1,6 +1,7 @@
 ### 使用步骤（Google Chrome）
 
 1. 服务启动后：访问 http://host(主机):port(端口)/，进页面输入目标url  
+2. 传送门：http://loveu3000.top:8487/
 
 #### 版本： SwaggerToWord 1.0 （2019-07-25）
 1. 一个Swagger API 文档转 Word 文档的工具项目 

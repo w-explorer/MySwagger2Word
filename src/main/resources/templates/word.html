@@ -6,9 +6,8 @@
     <title>toWord</title>
     <style type="text/css">
         .bg {
-            background-color: rgb(84, 127, 177);
+            background-color: rgb(217, 217,217);
         }
-
         table {
             table-layout: fixed;
         }
@@ -115,7 +114,7 @@
         }
 
         table, th, td {
-            border: 1px solid blue;
+            border: 1px solid #b1b1b3;
         }
     </style>
 
@@ -214,7 +213,7 @@
 
     </table>
 
-    <div th:each="table:${tables}" style="width:800px; margin: 0 auto">
+    <div th:each="table:${tables}" style="width:800px; margin: 0 auto;">
         <!--这个是类的说明-->
         <h4 th:text="${table.title}"></h4>
         <!--这个是每个请求的说明，方便生成文档后进行整理-->
@@ -278,7 +277,9 @@
             </tr>
             <tr class="specialHeight">
                 <td class="bg" style="width: 80px">请求参数</td>
-                <td colspan="4" th:text="${table.requestParam}"></td>
+<!--                <td colspan="4" th:text="${table.requestParam}"></td>-->
+                <td class="show-rough" colspan="4"><pre><code style="font-family: 宋体;font-size: 12px" id="json1" th:text="${table.requestParam}"></code></pre></td>
+
             </tr>
 <!--            <tr class="specialHeight">-->
 <!--                <td class="bg">返回值</td>-->
